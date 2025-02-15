@@ -44,6 +44,24 @@ class UserController {
       next(error);
     }
   }
+
+  public async getUserByEmail(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userEmail = req.params.userEmail;
+      const user = await userService.findUserByEmail(userEmail);
+      handleHttp(
+        res,
+        { data: user, message: "Cuenta de usuario obtenida existosamente" },
+        200
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default UserController;

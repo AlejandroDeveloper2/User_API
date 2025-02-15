@@ -42,6 +42,26 @@ class UserService {
       );
     }
   }
+
+  public async findUserByEmail(userEmail: string): Promise<User> {
+    try {
+      const user: User | null = await prisma.user.findUnique({
+        where: { email: userEmail },
+      });
+      if (!user)
+        throw new AppError(
+          404,
+          `No existe un usuario con el email: ${userEmail}`
+        );
+      return user;
+    } catch (error) {
+      return handlePrismaError(
+        error,
+        "Ha ocurrido un error al intentar obtener el usuario",
+        {}
+      );
+    }
+  }
 }
 
 export default UserService;
